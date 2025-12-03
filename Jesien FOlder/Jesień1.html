@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Jesień</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background: ;
+            color: #4e342e;
+        }
+        nav {
+            background-color: #6d4c41;
+            padding: 1em 2em;
+            display: flex;
+            gap: 25px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        nav a {
+            color: #ffe0b2;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1em;
+            padding: 0.2em 0.5em;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+        nav a:hover,
+        nav a.active {
+            background-color: #d84315;
+            color: #fff3e0;
+        }
+        section {
+            padding: 2em;
+            min-height: 400px;
+        }
+
+        #galeria {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1em;
+            align-items: center;
+            justify-content: center;
+
+        }
+        #galeria div {
+            background-color: #ffcc80;
+            height: 300px;
+            width: 800px;
+            border-radius: 8px;
+            border: black 4px solid;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            overflow: hidden; 
+            display:  inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-inline: 450px;
+           margin-bottom: 10px;
+            
+        }
+        #galeria img {
+            display: inline;
+           height: 300px;
+           width:600px;
+            object-fit: cover;
+            display: block;
+
+        }
+
+        #gra {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #plansza {
+            margin-top: 1em;
+            width: 90%;
+            max-width: 600px;
+            height: 300px;
+            background: #fff3e0;
+            border: 3px solid #d84315;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+        .lisc {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            background-size: contain;
+            background-repeat: no-repeat;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .lisc:hover {
+            transform: scale(1.2);
+        }
+        #wynik {
+            margin-top: 1em;
+            font-size: 1.2em;
+            font-weight: 700;
+            color: red;
+        }
+
+        #glowna p {
+        font-weight: bold;
+        font-size: 20px;
+
+        }
+        #stopka{
+            height: 80px;
+            width: 100%;
+            background-color: orange;
+          text-align: center;
+          position: fixed;
+            bottom: 0px;
+            align-items: center;
+            justify-content: center;
+
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="#" id="link-glowna" class="active">Strona główna</a>
+        <a href="#" id="link-galeria">Galeria</a>
+        <a href="#" id="link-gra">Gra</a>
+    </nav>
+
+    <section id="glowna">
+        <h1>Witamy na stronie o jesieni</h1>
+        <p>Jesień to jedna z 4 głównych pór roku, można ją traktować jako okres<br> przejściowy pomiędzy latem a zimą. Podczas jesieni liście drzew zmieniają kolor <br>a ptaki zaczynają powoli migrację w cieplejsze strony.<br> Podczas jesieni w niektórych krajach  w nocy z 31 października na 1 listopada obchodzi się Halloween<br>oraz popularniejsze w Polsce święto Wszystkich Świętych.<br>Popularną tradycją jest także grzybobranie, które ma miejsce głównie gdy klimat jesieni jest dość wilgotny.<br>Dawniej ludzie także zgrabiali upadłe liście i je palili chociaż teraz jest to nielegalne.</p>
+        <footer id="stopka"><h1>Jesień</h1></footer>
+    </section>
+
+    <section id="galeria" style="display:none;">
+        <div><img src="jez.jpg" ></div>
+        <div><img src="jesien.jpg" ></div>
+        <div><img src="drzewa.jpg" ></div>
+        <div><img src="herbata.jpg" ></div>
+    </section>
+
+    <section id="gra" style="display:none;">
+        <h2>Zbieranie liści</h2>
+        <p>Kliknij na liście, aby je zebrać i zdobyć punkty!</p>
+        <div id="plansza"></div>
+        <div id="wynik">Punkty: 0</div>
+        <footer id="stopka"><h1>Jesień</h1></footer>
+    </section>
+
+
+    <script>
+        const linkGlowna = document.getElementById('link-glowna');
+        const linkGaleria = document.getElementById('link-galeria');
+        const linkGra = document.getElementById('link-gra');
+
+        const sekcje = {
+            glowna: document.getElementById('glowna'),
+            galeria: document.getElementById('galeria'),
+            gra: document.getElementById('gra')
+        };
+
+        function pokazSekcje(nazwa) {
+            for (const key in sekcje) {
+                sekcje[key].style.display = (key === nazwa) ? 'block' : 'none';
+            }
+           
+            [linkGlowna, linkGaleria, linkGra].forEach(link => {
+                link.classList.remove('active');
+            });
+            if (nazwa === 'glowna') linkGlowna.classList.add('active');
+            else if (nazwa === 'galeria') linkGaleria.classList.add('active');
+            else if (nazwa === 'gra') linkGra.classList.add('active');
+        }
+
+        linkGlowna.addEventListener('click', e => {
+            e.preventDefault();
+            pokazSekcje('glowna');
+        });
+        linkGaleria.addEventListener('click', e => {
+            e.preventDefault();
+            pokazSekcje('galeria');
+        });
+        linkGra.addEventListener('click', e => {
+            e.preventDefault();
+            pokazSekcje('gra');
+            if (!graInicjalizowana) {
+                inicjalizujGre();
+            }
+        });
+
+        function stworzLiscia() {
+            const img = document.createElement('img');
+            img.src = 'lisc.jpg';  
+            img.alt = 'Liść';
+            img.classList.add('lisc');
+            const pos = losujPozycje(plansza.clientWidth, plansza.clientHeight);
+            img.style.left = pos.x + 'px';
+            img.style.top = pos.y + 'px';
+
+            img.addEventListener('click', () => {
+                punkty++;
+                wynik.textContent = `Punkty: ${punkty}`;
+                img.remove();
+            });
+
+            return img;
+        }
+
+        const plansza = document.getElementById('plansza');
+        const wynik = document.getElementById('wynik');
+
+        let punkty = 0;
+        let liczbaLisci = 10;
+        let graInicjalizowana = false;
+
+        function losujPozycje(maxWidth, maxHeight) {
+            const x = Math.floor(Math.random() * (maxWidth - 40));
+            const y = Math.floor(Math.random() * (maxHeight - 40));
+            return { x, y };
+        }
+
+        function inicjalizujGre() {
+            graInicjalizowana = true;
+            punkty = 0;
+            wynik.textContent = `Punkty: ${punkty}`;
+            plansza.innerHTML = '';
+
+            for (let i = 0; i < liczbaLisci; i++) {
+                const lisc = stworzLiscia();
+                plansza.appendChild(lisc);
+            }
+        }
+
+        pokazSekcje('glowna');
+    </script>
+</body>
+</html>
