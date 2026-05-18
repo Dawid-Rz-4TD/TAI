@@ -1,0 +1,27 @@
+
+CREATE TABLE `uzytkownicy` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `login` VARCHAR(50) NOT NULL UNIQUE,
+  `haslo` VARCHAR(255) NOT NULL,
+  `rola` ENUM('admin', 'user') NOT NULL DEFAULT 'user'
+);
+
+
+CREATE TABLE `uzytkownicy_dane` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `user_id` INT NOT NULL,
+  `imie` VARCHAR(100) NOT NULL,
+  `nazwisko` VARCHAR(100) NOT NULL,
+  `email` VARCHAR(100) NOT NULL,
+  `data_dodania` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (`user_id`) REFERENCES `uzytkownicy`(`id`) ON DELETE CASCADE
+);
+
+
+CREATE TABLE `logi` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `user_id` INT NOT NULL,
+  `data_logowania` DATETIME NOT NULL,
+  `formularz_wyslany` ENUM('tak', 'nie') NOT NULL DEFAULT 'nie',
+  FOREIGN KEY (`user_id`) REFERENCES `uzytkownicy`(`id`) ON DELETE CASCADE
+);
